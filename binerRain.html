@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Rain Matrix Effect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="binaryRain"></canvas>
+
+    <script>
+        const canvas = document.getElementById('binaryRain');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const columns = Math.floor(canvas.width / 20);
+        const drops = Array(columns).fill(0);
+
+        function drawBinaryRain() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00ffff';
+            ctx.font = '20px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = Math.random() > 0.5 ? '0' : '1';
+                const x = i * 20;
+                const y = drops[i] * 20;
+
+                ctx.save();
+                ctx.translate(x + 10, y + 10);
+                // ctx.rotate(Math.random() * 0.5);
+                ctx.translate(-(x + 10), -(y + 10));
+                ctx.fillText(text, x, y);
+                ctx.restore();
+
+                if (y > canvas.height && Math.random() > 0.993) {
+                    drops[i] = 0;
+                }
+
+                drops[i]++;
+            }
+        }
+
+        function loop() {
+            drawBinaryRain();
+            requestAnimationFrame(loop);
+        }
+
+        loop();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>

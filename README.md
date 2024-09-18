@@ -1,2 +1,2 @@
-# binerRain
-Rain with biner
+# binaryRain
+Rain with binary
